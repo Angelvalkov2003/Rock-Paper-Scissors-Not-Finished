@@ -4,31 +4,30 @@ const scissorsBtn = document.querySelector("#Scissors");
 const restartBtn = document.querySelector("#Restart");
 const readyBtn = document.querySelector("#Ready");
 
-
 const computerAnswear = document.querySelector("#computerAnswear");
 const result = document.querySelector("#Result");
 const scoreText = document.querySelector("#Score");
 
-let score = getCookie("My score is");
+let score = parseInt(getCookie("My score is")) || 0; // initialize score to 0 if cookie is not set
 
-let myAnswear;
-let compAnswear;
+let myAnswer;
+let compAnswer;
 
 gameStart();
-
+deleteCookie("My score is");
 function gameStart(){
     let Random = Math.floor(Math.random()*3);
     switch(Random){
     case 2:
-        compAnswear = "Rock";
+        compAnswer = "Rock";
         break;
     
     case 1:
-        compAnswear = "Scissors";
+        compAnswer = "Scissors";
         break;
         
     case 0:
-        compAnswear = "Paper";
+        compAnswer = "Paper";
         break;
     }
 
@@ -36,49 +35,44 @@ function gameStart(){
     paperBtn.addEventListener("click", choosePaper);
     scissorsBtn.addEventListener("click", chooseScissors);
 
-    readyBtn.addEventListener("click", Ready);
-
-    
+    readyBtn.addEventListener("click", Ready);   
 }
 
 function restart(){
-    myAnswear = null;
-    compAnswear = null;
+    myAnswer = null;
+    compAnswer = null;
     gameStart();
     result.textContent = "The result will be ...";
-    computerAnswear.textContent = "Computer is thinking his answear ";
+    computerAnswear.textContent = "Computer is thinking his answer ";
 }
 
 function choosePaper(){
-    myAnswear = "Paper";
+    myAnswer = "Paper";
 }
 function chooseScissors(){
-    myAnswear = "Scissors";
+    myAnswer = "Scissors";
 }
 function chooseRock(){
-    myAnswear = "Rock";
+    myAnswer = "Rock";
 }
 
 function Ready(){
-
-    
-
-    if(myAnswear == "Rock" && compAnswear == "Scissors")
+    if(myAnswer == "Rock" && compAnswer == "Scissors")
     {
-        score+=1
+        score += 1;
         result.textContent = "You win";
     }
-    else if(myAnswear == "Paper" && compAnswear == "Rock")
+    else if(myAnswer == "Paper" && compAnswer == "Rock")
     {
-        score+=1
+        score += 1;
         result.textContent = "You win";
     }
-    else if(myAnswear == "Scissors" && compAnswear == "Paper")
+    else if(myAnswer == "Scissors" && compAnswer == "Paper")
     {
-        score+=1
+        score += 1;
         result.textContent = "You win";
     }
-    else if(myAnswear == compAnswear)
+    else if(myAnswer == compAnswer)
     {
         result.textContent = "Draw";
     }
@@ -87,11 +81,11 @@ function Ready(){
     }
     
     deleteCookie("My score is");
-    setCookie("My score is", score, 365);
+    setCookie("My score is", score.toString(), 365);
 
-    scoreText.textContent = getCookie("My score is");
+    scoreText.textContent = score.toString();
 
-    computerAnswear.textContent = `Computer's answear is: ${compAnswear}`;
+    computerAnswer.textContent = `Computer's answer is: ${compAnswer}`;
 
     restartBtn.addEventListener("click", restart)
 }
